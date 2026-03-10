@@ -1,3 +1,6 @@
+using CarService.Application.Services;
+using CarService.Application.Factories;
+using CarService.Application.Strategies;
 using CarService.Core.Interfaces;
 using CarService.Infrastructure.Repositories;
 using CarService.Infrastructure.Data;
@@ -9,7 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();    
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); 
+builder.Services.AddScoped<IPricingStrategy, DefaultPricingStrategy>();
+builder.Services.AddScoped<IServiceRequestFactory, ServiceRequestFactory>();
+builder.Services.AddScoped<IServiceRequestService, ServiceRequestService>();   
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
