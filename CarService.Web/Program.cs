@@ -1,6 +1,11 @@
+using CarService.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using CarService.Web.Components;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
