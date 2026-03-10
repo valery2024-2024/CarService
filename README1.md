@@ -182,7 +182,7 @@ direction TB
     ServiceRequest -- UntitledClass
 ```
 ---
-# У проєкті AutoServiceManagementSystem реалізовано декілька класичних шаблонів
+# У проєкті CarService реалізовано декілька класичних шаблонів
 
 ## `Strategy Pattern`
 
