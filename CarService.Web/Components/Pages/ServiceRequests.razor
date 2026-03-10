@@ -1,0 +1,51 @@
+@page "/service-requests"
+@using CarService.Core.Entities
+@using CarService.Application.Services
+@inject IServiceRequestService Service
+
+<h3>Service Requests</h3>
+
+@if (requests == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Base Price</th>
+                <th>Final Price</th>
+                <th>Status</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var r in requests)
+            {
+                <tr>
+                    <td>@r.Id</td>
+                    <td>@r.Description</td>
+                    <td>@r.BasePrice</td>
+                    <td>@r.FinalPrice</td>
+                    <td>@r.Status</td>
+                    <td>@r.CreatedAt</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    List<ServiceRequest>? requests;
+
+    protected override async Task OnInitializedAsync()
+    {
+        requests = await Service.GetAllAsync();
+    }
+
+}
