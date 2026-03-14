@@ -1,0 +1,36 @@
+@page "/create-client"
+
+@using CarService.Application.Services
+
+@inject IClientService Service
+@inject NavigationManager Navigation
+
+<h3>Create Client</h3>
+
+<div class="mb-3">
+    <label>Name</label>
+    <input class="form-control" @bind="name"/>
+</div>
+
+<div class="mb-3">
+    <label>Phone</label>
+    <input class="form-control" @bind="phone"/>
+</div>
+
+<button class="btn btn-primary" @onclick="CreateClientAsync">
+Create
+</button>
+
+@code{
+
+string name = "";
+string phone = "";
+
+async Task CreateClientAsync()
+{
+    await Service.CreateAsync(name, phone);
+
+    Navigation.NavigateTo("/clients");
+}
+
+}

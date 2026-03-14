@@ -1,3 +1,4 @@
+using CarService.Core.Entities;
 using CarService.Core.Interfaces;
 using CarService.Infrastructure.Data;
 
@@ -6,12 +7,14 @@ namespace CarService.Infrastructure.Repositories;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly AppDbContext _context;
+    public IRepository<Client> Clients { get; }
 
     public IServiceRequestRepository ServiceRequests { get; }
 
     public UnitOfWork(AppDbContext context)
     {
         _context = context;
+        Clients = new Repository<Client>(context);
         ServiceRequests = new ServiceRequestRepository(context);
     }
 

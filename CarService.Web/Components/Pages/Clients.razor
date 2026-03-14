@@ -1,0 +1,47 @@
+@page "/clients"
+
+@using CarService.Core.Entities
+@using CarService.Application.Services
+
+@inject IClientService Service
+
+<h3>Clients</h3>
+
+@if (clients == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var c in clients)
+            {
+                <tr>
+                    <td>@c.Name</td>
+                    <td>@c.Phone</td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+
+@code{
+
+    List<Client>? clients;
+
+    protected override async Task OnInitializedAsync()
+    {
+        clients = await Service.GetAllAsync();
+    }
+
+}
