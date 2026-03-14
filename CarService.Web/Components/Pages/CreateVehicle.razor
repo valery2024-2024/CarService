@@ -1,0 +1,54 @@
+@page "/create-vehicle"
+
+@using CarService.Application.Services
+
+@inject IVehicleService Service
+@inject NavigationManager Navigation
+
+<h3>Create Vehicle</h3>
+
+<div class="mb-3">
+    <label>Brand</label>
+    <input class="form-control" @bind="brand"/>
+</div>
+
+<div class="mb-3">
+    <label>Model</label>
+    <input class="form-control" @bind="model"/>
+</div>
+
+<div class="mb-3">
+    <label>Year</label>
+    <input class="form-control" type="number" @bind="year"/>
+</div>
+
+<div class="mb-3">
+    <label>VIN</label>
+    <input class="form-control" @bind="vin" />
+</div>
+
+<div class="mb-3">
+    <label>Client Id</label>
+    <input class="form-control" type="number" @bind="clientId"/>
+</div>
+
+<button class="btn btn-primary" @onclick="CreateVehicleAsync">
+     Create
+</button>
+
+@code{
+
+string brand = "";
+string model = "";
+int year;
+string vin = "";
+int clientId;
+
+async Task CreateVehicleAsync()
+{
+    await Service.CreateAsync(brand, model, year, vin, clientId);
+
+    Navigation.NavigateTo("/vehicles");
+}
+
+}

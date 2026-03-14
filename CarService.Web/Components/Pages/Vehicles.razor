@@ -1,0 +1,53 @@
+@page "/vehicles"
+
+@using CarService.Core.Entities
+@using CarService.Application.Services
+
+@inject IVehicleService Service
+
+<h3>Vehicles</h3>
+
+@if (vehicles == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>VIN</th>
+                <th>ClientId</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var v in vehicles)
+            {
+                <tr>
+                    <td>@v.Brand</td>
+                    <td>@v.Model</td>
+                    <td>@v.Year</td>
+                    <td>@v.VIN</td>
+                    <td>@v.ClientId</td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+
+@code{
+
+    List<Vehicle>? vehicles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        vehicles = await Service.GetAllAsync();
+    }
+
+}
