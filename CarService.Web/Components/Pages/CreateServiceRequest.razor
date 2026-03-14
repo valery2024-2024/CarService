@@ -1,0 +1,41 @@
+@page "/create-request"
+
+@using CarService.Application.Services
+@inject IServiceRequestService Service
+@inject NavigationManager Navigation
+
+<h3>Create Service Request</h3>
+
+<div class="mb-3">
+    <label class="form-label">Vehicle Id</label>
+    <input class="form-control" @bind="vehicleId" />
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Description</label>
+    <input class="form-control" @bind="description" />
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Base Price</label>
+    <input class="form-control" type="number" @bind="basePrice" />
+</div>
+
+<button class="btn btn-primary" @onclick="CreateRequest">
+    Create
+</button>
+
+@code {
+
+    int vehicleId;
+    string description = "";
+    decimal basePrice;
+
+    async Task CreateRequest()
+    {
+        await Service.CreateAsync(vehicleId, description, basePrice);
+
+        Navigation.NavigateTo("/service-requests");
+    }
+
+}
