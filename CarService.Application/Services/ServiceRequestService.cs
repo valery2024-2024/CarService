@@ -3,6 +3,7 @@ using CarService.Core.Interfaces;
 using CarService.Application.Factories;
 
 
+
 namespace CarService.Application.Services;
 
 public class ServiceRequestService : IServiceRequestService
@@ -35,5 +36,10 @@ public class ServiceRequestService : IServiceRequestService
         await _unitOfWork.ServiceRequests.AddAsync(request);
 
         await _unitOfWork.SaveChangesAsync();
+    }
+    public async Task UpdateAsync(ServiceRequest request)
+    {
+        _unitOfWork.ServiceRequests.Update(request);
+        _unitOfWork.ServiceRequests.Update(request);
     }
 }

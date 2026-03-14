@@ -20,6 +20,7 @@ else
                 <th>Final Price</th>
                 <th>Status</th>
                 <th>Date</th>
+                <th>Details</th>
             </tr>
         </thead>
 
@@ -33,6 +34,12 @@ else
                     <td>@r.FinalPrice</td>
                     <td>@r.Status</td>
                     <td>@r.CreatedAt</td>
+                    <td>
+                        <a class="btn btn-sm btn-primary" 
+                           href="/service-request/@r.Id">
+                           Details
+                        </a>
+                    </td>
                 </tr>
             }
         </tbody>
