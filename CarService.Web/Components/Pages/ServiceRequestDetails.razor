@@ -24,22 +24,20 @@ else
         <p><b>Status:</b> @request.Status</p>
         <p><b>Date:</b> @request.CreatedAt</p>
 
-        <hr />
+        <h4>Status: @request.Status</h4>
+        @if (request.Status == ServiceStatus.New)
+        {
+            <button class="btn btn-warning" @onclick="StartRequest">
+                Start
+            </button>
+        }
 
-        <h5>Change Status</h5>
-
-        <button class="btn btn-warning me-2" @onclick="SetInProgress">
-            In Progress
-        </button>
-
-        <button class="btn btn-success me-2" @onclick="SetCompleted">
-            Completed
-        </button>
-
-        <button class="btn btn-danger" @onclick="SetCancelled">
-            Cancelled
-        </button>
-
+        @if (request.Status == ServiceStatus.InProgress)
+        {
+            <button class="btn btn-success" @onclick="CompleteRequest">
+                Complete
+            </button>
+        }
     </div>
 }
 
@@ -85,4 +83,20 @@ else
         }
     }
 
+    async Task StartRequest()
+    {    
+        if (request != null)
+        {
+            await Service.StartAsync(request.Id);
+            request = await Service.GetByIdAsync(request.Id);
+        }
+    }
+    async Task CompleteRequest()
+    {   
+        if (request != null) 
+        {
+            await Service.CompleteAsync(request.Id);
+            request = await Service.GetByIdAsync(request.Id);
+        }
+    }    
 }

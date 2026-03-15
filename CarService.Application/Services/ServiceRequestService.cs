@@ -61,4 +61,20 @@ public class ServiceRequestService : IServiceRequestService
         _unitOfWork.ServiceRequests.Update(request);
         await _unitOfWork.SaveChangesAsync();
     }
+
+    public async Task StartAsync(int id)
+    {
+        var request = await _unitOfWork.ServiceRequests.GetByIdAsync(id);
+        if (request == null)throw new Exception("Request not found");
+        request.Start();
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task CompleteAsync(int id)
+    {
+        var request = await _unitOfWork.ServiceRequests.GetByIdAsync(id);
+        if (request == null)throw new Exception("Request not found");
+        request.Complete();
+        await _unitOfWork.SaveChangesAsync();
+    }
 }

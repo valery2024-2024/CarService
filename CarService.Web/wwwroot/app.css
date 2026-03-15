@@ -3,7 +3,7 @@ html, body {
 }
 
 a, .btn-link {
-    color: #006bb7;
+    color: #f2f4f6;
 }
 
 .btn-primary {
@@ -57,4 +57,22 @@ h1:focus {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
+}
+
+.sidebar {
+    background: linear-gradient(180deg, #0f5132, #198754);
+}
+
+.nav-link {
+    color: white !important;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: #d1f7e3 !important;
+}
+
+.nav-link.active {
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 8px;
 }

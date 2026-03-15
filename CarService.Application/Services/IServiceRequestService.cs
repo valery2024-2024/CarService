@@ -4,6 +4,8 @@ namespace CarService.Application.Services;
 
 public interface IServiceRequestService
 {
+    Task StartAsync(int id);
+    Task CompleteAsync(int id);
     Task<List<ServiceRequest>> GetAllAsync();
 
     Task<ServiceRequest?> GetByIdAsync(int id);
