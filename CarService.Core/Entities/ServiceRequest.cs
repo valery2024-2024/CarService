@@ -1,3 +1,4 @@
+using CarService.Core.States;
 using CarService.Core.Enums;
 
 namespace CarService.Core.Entities;
@@ -19,4 +20,24 @@ public class ServiceRequest
     public int VehicleId { get; set; }
 
     public Vehicle? Vehicle { get; set; }
+    private IServiceRequestState GetState()
+    {
+        return Status switch
+        {
+            ServiceStatus.New => new NewState(),
+            ServiceStatus.InProgress => new InProgressState(),
+            ServiceStatus.Completed => new CompletedState(),
+            _ => throw new Exception("Invalid state")
+        };
+    }
+    public void Start()
+    {
+        var state = GetState();
+        state.Start(this);
+    }
+    public void Complete()
+    {
+        var state = GetState();
+        state.Complete(this);
+    }
 }
