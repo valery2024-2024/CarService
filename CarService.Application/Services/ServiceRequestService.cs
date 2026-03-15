@@ -1,4 +1,6 @@
 using CarService.Core.Entities;
+using CarService.Core.Enums;
+using CarService.Application.Strategies;
 using CarService.Core.Interfaces;
 using CarService.Application.Factories;
 
@@ -29,9 +31,26 @@ public class ServiceRequestService : IServiceRequestService
         return await _unitOfWork.ServiceRequests.GetByIdAsync(id);
     }
 
-    public async Task CreateAsync(int vehicleId, string description, decimal basePrice)
+    public async Task CreateAsync(int vehicleId, string description, decimal basePrice, string pricingStrategy)
     {
-        var request = _factory.Create(vehicleId, description, basePrice);
+        IPricingStrategy strategy = pricingStrategy switch
+        {
+            "Loyalty" => new LoyaltyPricingStrategy(),
+            "Urgency" => new UrgencyPricingStrategy(),
+            _ => new DefaultPricingStrategy()
+        };
+        
+        var finalPrice = strategy.CalculatePrice(basePrice);
+        
+        var request = new ServiceRequest
+        {
+            VehicleId = vehicleId,
+            Description = description,
+            BasePrice = basePrice,
+            FinalPrice = finalPrice,
+            CreatedAt = DateTime.Now,
+            Status = ServiceStatus.New
+        };
 
         await _unitOfWork.ServiceRequests.AddAsync(request);
 
@@ -40,6 +59,6 @@ public class ServiceRequestService : IServiceRequestService
     public async Task UpdateAsync(ServiceRequest request)
     {
         _unitOfWork.ServiceRequests.Update(request);
-        _unitOfWork.ServiceRequests.Update(request);
+        await _unitOfWork.SaveChangesAsync();
     }
 }

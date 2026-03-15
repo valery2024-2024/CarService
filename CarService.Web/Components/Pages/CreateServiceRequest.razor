@@ -34,16 +34,26 @@
     <input class="form-control" type="number" @bind="basePrice" />
 </div>
 
+<div class="mb-3">
+    <label>Pricing Strategy</label>
+    <select class="form-control" @bind="pricingStrategy">
+        <option value="Default">Default</option>
+        <option value="Loyalty">Loyalty Discount</option>
+        <option value="Urgency">Urgency</option>
+    </select>
+</div>
+
 <button class="btn btn-primary" @onclick="CreateRequest">
     Create
 </button>
 
 @code {
 
-    List<Vehicle>? vehicles;
+    List<Vehicle> vehicles = new();
     int vehicleId;
     string description = "";
     decimal basePrice;
+    string pricingStrategy = "Default";
 
     protected override async Task OnInitializedAsync()
     {
@@ -51,7 +61,7 @@
     }
     async Task CreateRequest()
     {
-        await Service.CreateAsync(vehicleId, description, basePrice);
+        await Service.CreateAsync(vehicleId, description, basePrice, pricingStrategy);
 
         Navigation.NavigateTo("/service-requests");
     }

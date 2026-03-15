@@ -8,6 +8,6 @@ public interface IServiceRequestService
 
     Task<ServiceRequest?> GetByIdAsync(int id);
 
-    Task CreateAsync(int vehicleId, string description, decimal basePrice);
+    Task CreateAsync(int vehicleId, string description, decimal basePrice, string pricingStrategy);
     Task UpdateAsync(ServiceRequest request);
 }
