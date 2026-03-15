@@ -1,14 +1,27 @@
 @page "/create-request"
 
 @using CarService.Application.Services
+@using CarService.Core.Entities
+@inject IVehicleService VehicleService
 @inject IServiceRequestService Service
 @inject NavigationManager Navigation
 
 <h3>Create Service Request</h3>
 
 <div class="mb-3">
-    <label class="form-label">Vehicle Id</label>
-    <input class="form-control" @bind="vehicleId" />
+    <label>Vehicle</label>
+    <select class="form-control" @bind="vehicleId">
+        @if (vehicles != null)
+        {
+            @foreach (var v in vehicles)
+            {
+                <option value="@v.Id">
+                    @v.Brand @v.Model (@v.Year)
+                </option>
+            }
+
+        }
+    </select>
 </div>
 
 <div class="mb-3">
@@ -27,10 +40,15 @@
 
 @code {
 
+    List<Vehicle>? vehicles;
     int vehicleId;
     string description = "";
     decimal basePrice;
 
+    protected override async Task OnInitializedAsync()
+    {
+        vehicles = await VehicleService.GetAllAsync();
+    }
     async Task CreateRequest()
     {
         await Service.CreateAsync(vehicleId, description, basePrice);

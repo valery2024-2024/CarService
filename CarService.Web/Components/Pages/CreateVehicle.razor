@@ -1,7 +1,9 @@
 @page "/create-vehicle"
 
+@using CarService.Core.Entities
 @using CarService.Application.Services
 
+@inject IClientService ClientService
 @inject IVehicleService Service
 @inject NavigationManager Navigation
 
@@ -23,13 +25,20 @@
 </div>
 
 <div class="mb-3">
-    <label>VIN</label>
+    <label>Vin</label>
     <input class="form-control" @bind="vin" />
 </div>
 
 <div class="mb-3">
     <label>Client Id</label>
-    <input class="form-control" type="number" @bind="clientId"/>
+    <select class="form-control" @bind="clientId">
+        @foreach (var client in clients)
+        {
+            <option value="@client.Id">
+                @client.Name
+            </option>
+        }
+    </select>
 </div>
 
 <button class="btn btn-primary" @onclick="CreateVehicleAsync">
@@ -42,8 +51,13 @@ string brand = "";
 string model = "";
 int year;
 string vin = "";
+List<Client>? clients;
 int clientId;
 
+protected override async Task OnInitializedAsync()
+{
+    clients = await ClientService.GetAllAsync();
+}
 async Task CreateVehicleAsync()
 {
     await Service.CreateAsync(brand, model, year, vin, clientId);
